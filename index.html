@@ -61,7 +61,8 @@
 <body>
 	<div id='mapDiv'></div>
 
-	<script src = "JSFILENAMEHERE.js"></script>
+	<!-- add the javascript file here -->
+	<script src = "1.js"></script>
 
 <!-- 		<div class="panel group">
 			<div class="panel panel-primary panel-fixed">
@@ -149,7 +150,7 @@
 		        onEachFeature: function(feature, layer) {   
 		            var props = layer.feature.properties;
 		            
-		            layer.bindPopup("<b>"+props.FIELDNAMEHERE+"</b>");
+		            layer.bindPopup("<b>"+props.address+"</b>");
 		                
 		        }
 		    }).addTo(map);
