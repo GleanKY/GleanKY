@@ -131,7 +131,7 @@
 		        onEachFeature: function(feature, layer) {   
 		            var props = layer.feature.properties;
 		            
-		            layer.bindPopup("<b>"+props.Recipient+"</b>");
+		            layer.bindPopup("<b>"+props.Recipient+"</b>" + "<br>" + "Address: " + props.Address + "<br>" + "Telephone: " + props.Telephone + "<br>" + "Contact: " + props.Contact + "<br>" + "Email: " + props.Email + "<br>" + "Pantry or Giveaway?: " + props.Pantry_Giv + "<br>" + "Meals: " + props.Meals + "<br>" + "Food Education?: " + props.Food_Educa + "<br>" + "# of Recipients: " + props.NumRecipie + "<br>" + "Food Capacity: " + props.Food_Capac + "<br>" + "Regular distribution: " + props.Regular_di + "<br>" + "Receive food from other orgs?: " + props.Receive_Fo + "<br>" + "Notes: " + props.Notes);
 		                
 		        }
 		    }).addTo(map);
