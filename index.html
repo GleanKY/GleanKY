@@ -26,115 +26,83 @@
 	<script src="http://maps.stamen.com/js/tile.stamen.js"></script>
 
 	<style>
-	html, body, #mapDiv {
-		height: 100%;
-		width: 100%;
-	}
-	.leaflet-popup-content-wrapper {
-		opacity: 0.9;
-		border-radius: 5px;
-	}
-    .panel-fixed {
-  		position: absolute;
-  		top: 15px;
-	  	right: 15px;
-		margin-left: 60px;
-		width: 320px;
-		text-align: center;
-		z-index: 50;
-	}
+		html, body, #mapDiv {
+			height: 100%;
+			width: 100%;
+		}
+		.leaflet-popup-content-wrapper {
+			opacity: 0.9;
+			border-radius: 5px;
+		}
+	    .panel-fixed {
+	  		position: absolute;
+	  		top: 15px;
+		  	right: 15px;
+			margin-left: 60px;
+			width: 320px;
+			text-align: center;
+			z-index: 50;
+		}
 	</style>
 </head>
 <body>
 	<div id='mapDiv'></div>
-
-	<!-- add the javascript file here -->
-	<script src = "glean.js"></script>
-
 		<div class="panel group">
 			<div class="panel panel-primary panel-fixed">
 			  <div class="panel-heading">
-			    <h3 class="panel-title"><span class="title">GleanKY Recipient Sites</span>  <!-- <a data-toggle="collapse" href="#collapse1"><span class="glyphicon glyphicon-chevron-down"></span></a> -->
+			    <h3 class="panel-title">
+			    	<span class="title">GleanKY Recipient Sites</span>  
 			    </h3>
 			  </div>
-			<!--  <div id="collapse1" class="panel-collapse collapse">
-			 	 <div class="panel-body">
-			 	 	<span class="description"></span>
-				 </div> -->
-
 			</div> 
 		</div>
 		
-			<script>
+	<script>
 	//Create map
-	var map = new L.map('mapDiv', {
-		center: [38.055,-84.483],
-		zoom: 10,
-		minZoom: 8,
-		maxZoom: 17,
-		zoomControl: true,
-		dragging: true,
-	});
+		var map = new L.map('mapDiv', {
+			center: [38.055,-84.483],
+			zoom: 10,
+			minZoom: 8,
+			maxZoom: 17,
+			zoomControl: true,
+			dragging: true,
+		});
 
 	// Add tile layer
-	var layer = new L.StamenTileLayer("toner-lite");
+		var layer = new L.StamenTileLayer("toner-lite");
 
-	map.addLayer(layer);
+		map.addLayer(layer);
 
+	//Add empty variable for data 
+		var sitePoints = null;
 
- //       function getQueryParams(qs) {
- //            qs = qs.split('+').join(' ');
+	//get geoJSON and put it on the map
+	$.getJSON("glean.geojson",function(data){
+		// Create data layer
+		sitePoints = L.geoJson(data, {
+			pointToLayer: function (feature, latlng) {
+				return L.circleMarker (latlng, {
+					radius: 4,
+					fillColor: "#2eb8b8",
+					color: "#000",
+					weight: 1,
+					opacity: 1,
+					fillOpacity: 0.8
+				});
+			},
 
- //            var params = {},
- //                tokens,
- //                re = /[?&]?([^=]+)=([^&]*)/g;
-
- //            while (tokens = re.exec(qs)) {
- //                params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
- //            }
-
- //            return params;
- //        }
-        
-	
-	// var queryId = getQueryParams(document.location.search).id;
-    // if(query.id !== undefined && query.id !== null) {
-    //     addGeoJsonLayer("https://raw.githubusercontent.com/geoiq/gc_data/master/datasets/"+ query.id +".geojson");
-    // }
-    
-
-
-//from SO
-	// var district_boundary = new L.geoJson();
-	// district_boundary.addTo(map);
-	// var data;
-	
-	// $.ajax({
-	// 	dataType: "json",
-	// 	url: queryId+".geojson",
-	// 	success: function(ajaxData) {
-	// 		console.log(ajaxData);
-	// 		 data = ajaxData;
-			// Create data layer
-			var geoJSONLayer = L.geoJson(data, {
-				pointToLayer: function (feature, latlng) {
-					return L.circleMarker (latlng, {
-						radius: 4,
-						fillColor: "#2eb8b8",
-						color: "#000",
-						weight: 1,
-						opacity: 1,
-						fillOpacity: 0.8
-					});
-				},
-		
-		        onEachFeature: function(feature, layer) {   
-		            var props = layer.feature.properties;
-		            
-		            layer.bindPopup("<b>"+props.Recipient+"</b>" + "<br>" + "Address: " + props.Address + "<br>" + "Telephone: " + props.Telephone + "<br>" + "Contact: " + props.Contact + "<br>" + "Email: " + props.Email + "<br>" + "Pantry or Giveaway?: " + props.Pantry_Giv + "<br>" + "Meals: " + props.Meals + "<br>" + "Food Education?: " + props.Food_Educa + "<br>" + "# of Recipients: " + props.NumRecipie + "<br>" + "Food Capacity: " + props.Food_Capac + "<br>" + "Regular distribution: " + props.Regular_di + "<br>" + "Receive food from other orgs?: " + props.Receive_Fo + "<br>" + "Notes: " + props.Notes);
-		                
-		        }
-		    }).addTo(map);
+	        onEachFeature: function(feature, layer) { 
+	        	var props = layer.feature.properties;
+	            var popupcontent = "";
+	            
+	            $.each(props, function(fieldName, fieldValue){
+	            	popupcontent += "<b>"+fieldName+": </b>"+fieldValue + "<br/>";
+	            })
+	            
+	            layer.bindPopup(popupcontent);      
+	        }
+}).addTo(map);
+});
 		    
 		 //    $('.panel-title .title').text(data.metadata.title);
 		 //    $('.panel-body .description').html(data.metadata.description);
