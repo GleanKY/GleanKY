@@ -19,122 +19,30 @@
 
 	<!-- Latest compiled and minified Bootstrap -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-	<style>
-		#side-panel {
-		    position: absolute;
-		    left: 0;
-		    top: 0;
-		    bottom: 0;
-		    width: 33%;
-		    background: whitesmoke;
-		    border-right: 2px solid #1C9976;
-		    overflow-y: scroll;
-		}
-		#map {
-		    position:absolute;
-		    top:0;
-		    bottom:0;
-		    right: 0;
-		    width: 67%;
-		}
-		h1 {
-		    padding: 8px 25px 8px 15px;
-		    margin: 0;
-		    background: #1C9976;
-		    color: whitesmoke;
-		    font-weight: 400;
-		    font-size: 1.5em;
-		    text-align: right;
-		}
-		h2 {
-		    margin: 0;
-		    padding: 8px 25px 8px 15px;
-		    color: #1C9976;
-		    font-weight: 500;
-		    font-size: 1.2em;
-		    text-align: right;
-		}
-		#side-panel p {
-		    margin: 8px 0 4px; 
-		    padding: 0 25px 0 15px;
-		    color: #3d3d3d;
-		    text-align: right;
-		    font-size: 1em; 
-		}
-		#side-panel p:after {
-		    content: '';
-		    display: block;
-		    clear: both;
-		}
-		#side-panel img {
-		    float: right;
-		    margin: 0 0 15px 15px;
-		}
-	</style>
+	<link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+	
+	<link href='css/glean.css' rel='stylesheet' type='text/css'>
+	
 </head>
 <body>
 	<div id='map'></div>
-		<!-- <div class="panel group">
-			<div class="panel panel-primary panel-fixed">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">
-			    	<span class="title">GleanKY Recipient Sites</span>  
-			    </h3>
-			  </div>
-			</div> 
-		</div> -->
+		<div id='side-panel'>
+			<h1></h1>
+				<div id='header'>
+					<div id='logo'>
+						<a href="http://www.gleanky.org"><img src="http://www.gleanky.org/wp-content/uploads/2014/10/logo.png" alt="Glean KY" title=""></a>
+					</div>
+				</div>
+			<h1>Recipient Sites</h1>
+			<div id='poptext'>
+				<h2 style="font-size: 24px">Click on the map to learn more about our partners.</h2>
+				<p>These are the organizations, ministries and other groups that receive food via GleanKY for hot meal programs or distribution. GleanKY produce is never sold and is intended only for food insecure individuals and families.</p>
+				<p><a href="http://www.gleanky.org/contact-us/">Email us </a>if your organization should be included.</p>
+			</div>
+	</div>
 		
-	<script>
-	//Create map
-		// var map = new L.map('mapDiv', {
-		// 	center: [38.055,-84.483],
-		// 	zoom: 10,
-		// 	minZoom: 8,
-		// 	maxZoom: 17,
-		// 	zoomControl: true,
-		// 	dragging: true,
-		// });
-
-	// Add tile layer
-		L.mapbox.accessToken = 'pk.eyJ1IjoiamVzc2licmVlbiIsImEiOiJGNnlGVkRrIn0.Ar8l7jFbPYG3SWR-DrTyNQ';
-		var map = L.mapbox.map('map', 'mapbox.streets')
-    		.setView([38.055, -84.482], 10);
-		
-		// var layer = new L.StamenTileLayer("watercolor");
-
-		// map.addLayer(layer);
-
-	//Add empty variable for data 
-		var sitePoints = null;
-
-	//get geoJSON and put it on the map
-	$.getJSON("glean.geojson",function(data){
-		// Create data layer
-		sitePoints = L.geoJson(data, {
-			pointToLayer: function (feature, latlng) {
-				return L.circleMarker (latlng, {
-					radius: 4,
-					fillColor: "#2eb8b8",
-					color: "#000",
-					weight: 1,
-					opacity: 1,
-					fillOpacity: 0.8
-				});
-			},
-
-	        onEachFeature: function(feature, layer) { 
-	        	var props = layer.feature.properties;
-	            var popupcontent = "";
-	            
-	            $.each(props, function(fieldName, fieldValue){
-	            	popupcontent += "<b>"+fieldName+": </b>"+fieldValue + "<br/>";
-	            })
-	            
-	            layer.bindPopup(popupcontent);      
-	        }
-}).addTo(map);
-});    
-</script>
-	</body>
+<script src="js/map.js"></script>
+	
+</body>
+	
 </html>
