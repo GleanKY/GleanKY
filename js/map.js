@@ -62,7 +62,7 @@ $.getJSON("data/map.geojson",function(data){
 		        click: function populate(e) {
 		        document.getElementById('poptext').innerHTML = "<h2>"+props.organization+"</h2>"+
 		        "<dl>"+
-			        "<dt>"+"Address: "+"</dt><dd>"+props.address+"<br>"+props.city+", "+props.state+" "+props.zipcode+"</dd>"+
+			        props.address+"<br>"+props.city+", "+props.state+" "+props.zipcode+
 			        // "<dt>"+"Contact: "+"</dt><dd>"+props.contact+"<br>"+props.email+"<br>"+props.phone+"</dd>"+
 			        // "<dt>"+"Hours of Operation: "+"</dt><dd>"+props.hours+"</dd>"+
 			        // "<dt>"+"Storage Capacity: "+"</dt><dd>"+props.storage_cap+"</dd>"+
